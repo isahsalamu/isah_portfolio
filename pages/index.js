@@ -1,11 +1,27 @@
 import Head from 'next/head'
 import Image from 'next/image'
+import { useEffect, useState } from 'react'
 import PortfolioNavbar from '../components/navbar/portfolioNavbar'
 import CustomFooter from '../components/widgets/customFooter'
 import UserComponent from '../components/widgets/userComponent'
+import UserStore from '../services/store/user.store'
 import styles from '../styles/Home.module.css'
 
+
+const userstore = new UserStore();
+
 export default function Home() {
+  const [user,setUser] = useState({})
+  const getUser =() =>{
+    userstore.get(3).then(response =>{
+      // console.log(response);
+      setUser(response)
+
+    })
+  }
+  useEffect(()=>{
+    getUser()
+  })
   return (
     <div className="">
       <Head>
@@ -14,8 +30,8 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-        <PortfolioNavbar/>
-        <UserComponent/>
+        <PortfolioNavbar/> 
+        <UserComponent user ={user}/>
         <CustomFooter/>
       
       
